@@ -17,10 +17,10 @@ var database = firebase.database();
 
 
 
-database.ref("reviewID").on("value", function(snapshot) {
-  reviewID = snapshot.val().number;
-  console.log(reviewID)
-})
+// database.ref("reviewID").on("value", function(snapshot) {
+//   reviewID = snapshot.val().number;
+//   console.log(reviewID)
+// })
 
 
 
@@ -37,7 +37,8 @@ database.ref().on("child_added", function (childSnapshot) {
   var revReview = childSnapshot.val().review;
   var revDescription = childSnapshot.val().description;
   var revFoodDrink = childSnapshot.val().foodDrink;
-  var revID = childSnapshot.val().reviewID;
+  var revLat = parseInt(childSnapshot.val().lat);
+  var revLong = parseInt(childSnapshot.val().long);
 
   var $reviewDiv = $("<div class=' card m-2 d-inline-block' data-toggle='modal' data-target='#ex-modal' id='review-card' style='width: 21rem;'>");
   var $imgTop = $("<img class='card-img-top' alt='Card image cap' id='review-card-top'>");
@@ -79,10 +80,11 @@ database.ref().on("child_added", function (childSnapshot) {
 
   $reviewDiv.attr("data-description", revDescription)
     .attr("data-option", revFoodDrink)
-    .attr("data-ID", revID)
     .attr("data-review", revReview)
     .attr("data-rating", revRating)
     .attr("data-mf", revmfOptions)
+    .attr("data-longitude", revLat)
+    .attr("data-latitude", revLong)
 
   $($reviewDiv).append($imgTop, $cardBody);
   $($cardBody).append($itemName, $restName, $review, $mfRow);
@@ -91,8 +93,6 @@ database.ref().on("child_added", function (childSnapshot) {
   $($mfCol).append($mf, $mfOptions);
   $("#review-section").append($reviewDiv);
 
-  long = '';
-  lat = '';
 
 
 

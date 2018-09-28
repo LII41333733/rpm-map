@@ -1,13 +1,19 @@
 var currentSelection = {}
-var reviewID;
+var map;
 
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: 0, lng: 0 },
+    zoom: 15
+  });
+}
 
 
 
 function apiCall(searchItems) {
 
-  //var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + "sushi" + "&location=" + "toms+river" + "&radius=" + 10000 + "&limit=" + 10 + "&price=" + 2;
-  var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + searchItems.keyword + "&location=" + searchItems.location + "&radius=" + searchItems.radiusSelected + "&limit=" + searchItems.resultsSelected + "&price=" + searchItems.priceSelected;
+  var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + "sushi" + "&location=" + "toms+river" + "&radius=" + 10000 + "&limit=" + 10 + "&price=" + 2;
+  //var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + searchItems.keyword + "&location=" + searchItems.location + "&radius=" + searchItems.radiusSelected + "&limit=" + searchItems.resultsSelected + "&price=" + searchItems.priceSelected;
 
   $.ajax({
     url: queryURL,
@@ -30,8 +36,11 @@ function apiCall(searchItems) {
       var categoriesArray = [];
       var price = response.businesses[i].price;
       var distance = response.businesses[i].distance;
-      // lat = response.businesses[i].coordinates.latitude
-      // long = response.businesses[i].coordinates.longitude
+      var restLat = response.businesses[i].coordinates.latitude;
+      var restLong = response.businesses[i].coordinates.longitude;
+
+
+
 
       for (var j = 0; j < categories; j++) {
         categoriesArray.push(categories[j].title);
@@ -49,14 +58,15 @@ function apiCall(searchItems) {
       var $distance = $("<p class='card-text'>").text(metersToMiles(distance) + " miles");
       var $reviewButton = $("<button type='button' class='btn btn-secondary btn-sm btn-block' id='review-button' data-toggle='modal' data-target='#submit-modal'>Submit Review!</button>");
 
-      $($cardBodyText).append($name, $address, $city, $categoriesArray, $price, $distance);
-      $($cardBodyButton).append($reviewButton);
-      $($restaurantDiv).append($cardBodyText, $cardBodyButton);
+      $cardBodyText.append($name, $address, $city, $categoriesArray, $price, $distance);
+      $cardBodyButton.append($reviewButton);
+      $restaurantDiv.append($cardBodyText, $cardBodyButton);
+
+      $restaurantDiv.attr("data-long", restLong)
+                      .attr("data-lat", restLat)
 
 
       $("#store-results").append($restaurantDiv);
-
-
     }
 
     function metersToMiles(meters) {
@@ -116,12 +126,15 @@ $(document).ready(function () {
   })
 
   $(document).on("click", "#review-button", function () {
-console.log($(this))
+    console.log($(this))
 
     currentSelection = {};
 
     currentSelection.restaurant = $(this).parent().parent()[0].childNodes[0].children[0].innerHTML
     currentSelection.cityState = $(this).parent().parent()[0].childNodes[0].children[2].innerHTML.replace(/[0-9]/g, '').trim();
+    currentSelection.long = parseInt($(this)[0].parentElement.parentElement.dataset.long)
+    currentSelection.lat = parseInt($(this)[0].parentElement.parentElement.dataset.lat)
+
   })
 
   $("#submit-item-form").on("click", function (event) {
@@ -139,7 +152,6 @@ console.log($(this))
     currentSelection.review = review;
     currentSelection.description = description;
     currentSelection.foodDrink = foodDrink;
-    currentSelection.reviewID = reviewID;
 
     //for the card
     currentSelection.itemName = itemName;
@@ -151,11 +163,11 @@ console.log($(this))
       database.ref().push(currentSelection);
     })
 
-    reviewID++;
 
-    database.ref("reviewID").set({
-      number: reviewID
-    })
+
+    // database.ref("reviewID").set({
+    //   number: reviewID
+    // })
 
 
     $('input[name="submit-item-category"]').prop('checked', false);
@@ -180,37 +192,38 @@ console.log($(this))
     $("#file-upload").val("");
   })
 
-  $(document).on("click","#review-card", function() {
+  $(document).on("click", "#review-card", function () {
+    $("#info-row").empty();
 
-    console.log($(this))
-    console.log($(this).attr("src"))
-
+    // console.log($(this))
     var dataset = $(this)
 
     var image = dataset[0].childNodes[0].attributes.src.value
     var description = dataset[0].dataset.description
     var review = dataset[0].dataset.review
-    var mouthFeel = dataset[0].mf
-    // long = dataset[0].long
-    // latt = dataset[0].lat
-
-
-
-    $(".ex-img").attr("src", image)
-
-    var $description = $("<div>").text(description)
-    var $review = $("<div>").text(review)
-    var $mouthFeel = $("<div>").text(mouthFeel)
-    // var $long = $("<div>")
-    // var $lat = $("<div>")
-
+    var mouthFeel = dataset[0].dataset.mf
+    var restLong = parseInt(dataset[0].dataset.longitude)
+    var restLat = parseInt(dataset[0].dataset.latitude)
     
-    $(".info-div").append($description, $review, $mouthFeel)
+    clickroute(restLat,restLong)
+    
+    function clickroute(lati,long) {
+      var latLng = new google.maps.LatLng(lati, long); //Makes a latlng
+      map.panTo(latLng); //Make map global
+    }
 
 
+    $(".ex-img").attr("src", image);
+
+    var $infoDiv = $("<div class='card noborder ex ex-desc info-div m-2'>")
+
+    var $description = $("<h4 class='text-center mt-4'>Description:</h3>").append("<p class='text-center smallText mt-2' id='description'>" + description + "</p>")
+    var $review = $("<h4 class='text-center mt-4'>Review:</h3>").append("<p class='text-center smallText mt-2' id='review'>" + review + "</p>")
+    var $mouthFeel = $("<h4 class='text-center mt-3'>Mouthfeel:</h3>").append("<p class='text-center smallText mt-2' id='mouthFeel'>" + mouthFeel + "</p>")
 
 
-
+    $infoDiv.append($mouthFeel, $description, $review)
+    $("#info-row").append($infoDiv)
 
   })
 

@@ -1,4 +1,7 @@
-body {
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   background-color: #a52a2a;
   font-family: 'Montserrat', sans-serif;
 }
@@ -122,13 +125,9 @@ p {
 
 .noborder {
   border: none;
-  width:250px;
-  margin-top: 20px;
 }
 
 .customer-text {
-  height: 200px;
-  width: auto;
   font-size: 0.9rem;
 }
 
@@ -167,34 +166,58 @@ padding-top: 20px;
   height: 100%;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.sized {
-  height: 400px;
-  width: 400px;
-}
-
-
 .ex {
   height: 260px;
-  width: 400px;
+}
 
+.ex-pic {
+  width: 400px;
+  height: auto;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.ex-desc {
+  width: 100%;
+}
+
+.ex-map {
+  width: 300px;
 }
 
 .ex-img {
   height: auto;
   width: 100%;
+  max-height: 250px;
 }
 
-#big-div {
-  height: 300px;
-  width: auto;
+
+.front-pic {
+  max-width: 195px;
 }
 
-.map-card {
-  width: 300px;
+.bRadius-5 {
+  border-radius: 5px;
+}
+
+.holder {
+  width: 100%;
+  height: auto;
+}
+
+.smallText {
+  font-size: 0.9rem;
+}
+
+.modal-dialog,
+.modal-content {
+    /* 80% of window height */
+    height: 100%;
+}
+
+.modal-body {
+    /* 100% = dialog height, 120px = header + footer */
+    max-height: calc(100% - 120px);
+    overflow-y: scroll;
 }
