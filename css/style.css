@@ -1,0 +1,200 @@
+body {
+  background-color: #a52a2a;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#main-logo {
+  height: auto;
+  width: 350px;
+  min-width: 150px;
+}
+
+#navbarNav {
+  margin: 10px 0px 10px 0px;
+
+}
+
+.jumbotron {
+  background-image: url(../images/webBanner.png);
+  background-size: cover;
+  text-align: center;
+}
+
+.jumbotron img {
+  width: 50%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.aboutBanner {
+  background-image: url(../images/webBanner.png);
+  background-size: cover;
+  width:100%;
+  display:flex;
+  justify-content: center;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.contactBanner {
+  background-image: url(../images/webBanner.png);
+  background-size: cover;
+  width:100%;
+  display:flex;
+  justify-content: center;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+#card-rest-text {
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+#card-review-text {
+  height: 75px;
+  font-size: 0.9rem;
+}
+
+.mf-chart {
+  text-align: center;
+}
+
+img {
+  width: 75%;
+  height: auto;
+}
+
+p {
+  margin: 0;
+}
+
+#caption {
+  font-size: 0.9rem;
+}
+
+#store-name, #rest-card-text {
+  font-size: 1rem;
+  
+}
+
+#store-name {
+  height: 45px;
+  font-weight: bold;
+}
+
+#rest-card-text {
+  font-size: 0.9rem;
+}
+
+#review-card-top {
+  height: 222px;
+  width: 332px;
+}
+
+#store-results {
+  max-height: 450px;
+  overflow: auto;
+}
+
+
+
+#review-icon {
+  height: 42px;
+  width: 42px;
+}
+
+#review-section {
+  background-color: white;
+  border-radius: 5px;
+  max-height: 950px;
+  overflow: auto;
+}
+
+#review-card:hover, #rest-card:hover  {
+  border: 2px solid #a52a2a;
+}
+
+.customer-container {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.noborder {
+  border: none;
+  width:250px;
+  margin-top: 20px;
+}
+
+.customer-text {
+  height: 200px;
+  width: auto;
+  font-size: 0.9rem;
+}
+
+.footer {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  background-color: #293039;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 50px;
+  height: 100px;
+padding-top: 20px;
+}
+
+#career-row {
+  border-radius: 5px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+}
+
+.form-check-inline {
+  margin-right: 10px;
+}
+
+#submit-search {
+  margin-top: 15px;
+}
+
+
+#map {
+  height: 100%;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.sized {
+  height: 400px;
+  width: 400px;
+}
+
+
+.ex {
+  height: 260px;
+  width: 400px;
+
+}
+
+.ex-img {
+  height: auto;
+  width: 100%;
+}
+
+#big-div {
+  height: 300px;
+  width: auto;
+}
+
+.map-card {
+  width: 300px;
+}
