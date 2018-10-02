@@ -267,10 +267,10 @@ $(document).ready(function () {
     var $reviewCard = $("<div class='card zeroBorder' id='reviewCard'>");
 
 
-    var $descriptionTitle = $("<h4 class='text-center mt-4'>Description</h4>");
+    var $descriptionTitle = $("<h4 class='text-center mt-4'>Description:</h4>");
     var $descriptionBody = $("<p class='text-center smallText mt-2' id='description'>")
     $descriptionBody.text(description)
-    var $reviewTitle = $("<h4 class='text-center mt-4'>Review:</h4>");
+    var $reviewTitle = $("<h4 class='text-center mt-4'>Overall Experience:</h4>");
     var $reviewBody = $("<p class='text-center smallText mt-2' id='review'>" + review + "</p>")
     var $mouthFeelTitle = $("<h4 class='text-center mt-4'>Mouthfeel:</h4>");
     var $mouthFeelBody = $("<p class='text-center smallText mt-2' id='mouthFeel'>" + mouthFeel + "</p>")

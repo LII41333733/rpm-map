@@ -223,100 +223,101 @@
         </div>
 
         <div class="modal-body">
-
+          
           <form id="search-form">
-
+            
             <div class="form-group">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="submit-item-category" id="submit-item-category"
-                  value="food" required>
+                value="food" required>
                 <label class="form-check-label" for="food">Food</label>
               </div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="submit-item-category" id="submit-item-category"
-                  value="drink" required>
+                value="drink" required>
                 <label class="form-check-label" for="drink">Drink</label>
               </div>
             </div>
-
+            
             <div class="form-group">
-              <label for="submit-item-name">Item Name:</label>
+              <label for="submit-item-name">Item Name (As it appears on the menu - if possible):</label>
               <input type="text" class="form-control" id="submit-item-name" aria-describedby="submit-item-name"
-                placeholder="JD Burger, Shrimp Tempura Roll, Chicken Piccatta Pasta" required>
+              placeholder="JD Burger, Shrimp Tempura Roll, Chicken Piccatta Pasta" required>
             </div>
-
+            
+            
             <div class="form-group">
-              <label for="submit-item-rating">Rating:</label><br>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="submit-item-rating" id="submit-item-rating" value="1"
-                  required>
-                <label class="form-check-label" for="inlineRadio1">1 (Worst)</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="submit-item-rating" id="submit-item-rating" value="2"
-                  required>
-                <label class="form-check-label" for="inlineRadio2">2</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="submit-item-rating" id="submit-item-rating" value="3"
-                  required>
-                <label class="form-check-label" for="inlineRadio2">3</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="submit-item-rating" id="submit-item-rating" value="4"
-                  required>
-                <label class="form-check-label" for="inlineRadio2">4 (Best)</label>
-              </div>
+              <label for="submit-item-description">Detailed Description:</label>
+              <textarea class="form-control" id="submit-item-description" rows="3" placeholder="Ingredients, presentation, history"
+              required></textarea>
             </div>
-
+            
             <div class="form-group">
-              <label for="submit-item-description">Basic Description:</label>
-              <textarea class="form-control" id="submit-item-description" rows="3" placeholder="Provide a short description of the item."
-                required></textarea>
+              <label for="submit-item-review">Overall Experience:</label>
+              <textarea class="form-control" id="submit-item-review" rows="3" placeholder="Include details on mouthfeel, taste, aroma, texture, etc."
+              required></textarea>
             </div>
-
-            <div class="form-group">
-              <label for="submit-item-review">Personal Review:</label>
-              <textarea class="form-control" id="submit-item-review" rows="3" placeholder="Give a detailed review on the item."
-                required></textarea>
-            </div>
-
+            
             <div class="form-group">
               <label for="mouthfeel-options">Mouthfeel options (Choose 3):<br>
                 <em id="caption">Hold CTRL or CMD to select multiple</em></label>
-              <select multiple class="form-control" id="mouthfeel-options" required>
-                <option value="Salty">Salty</option>
-                <option value="Crunchy">Crunchy</option>
-                <option value="Mild">Mild</option>
-                <option value="Moist">Moist</option>
-                <option value="Tart">Tart</option>
-                <option value="Sweet">Sweet</option>
-                <option value="Bland">Bland</option>
-                <option value="Hot">Hot</option>
-                <option value="Warm">Warm</option>
-                <option value="Savory">Savory</option>
-                <option value="Complex">Complex</option>
-                <option value="Simple">Simple</option>
-                <option value="Strong">Strong</option>
-                <option value="Juicy">Juicy</option>
-                <option value="Sour">Sour</option>
-              </select>
-            </div>
+                <select multiple class="form-control" id="mouthfeel-options" required>
+                  <option value="Salty">Salty</option>
+                  <option value="Crunchy">Crunchy</option>
+                  <option value="Mild">Mild</option>
+                  <option value="Moist">Moist</option>
+                  <option value="Tart">Tart</option>
+                  <option value="Sweet">Sweet</option>
+                  <option value="Bland">Bland</option>
+                  <option value="Hot">Hot</option>
+                  <option value="Warm">Warm</option>
+                  <option value="Savory">Savory</option>
+                  <option value="Complex">Complex</option>
+                  <option value="Simple">Simple</option>
+                  <option value="Strong">Strong</option>
+                  <option value="Juicy">Juicy</option>
+                  <option value="Sour">Sour</option>
+                </select>
+              </div>
+              
+              <div class="form-group mb-0">
+                <input id="file-upload" type="file" multiple onchange="processSelectedFiles(this)">
+              </div>
 
-            <div class="form-group mb-0">
-              <input id="file-upload" type="file" multiple onchange="processSelectedFiles(this)">
-            </div>
-
-          </form>
-
+              <div class="form-group mt-3">
+                <label for="submit-item-rating">Rating:</label><br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="submit-item-rating" id="submit-item-rating" value="1"
+                  required>
+                  <label class="form-check-label" for="inlineRadio1">1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="submit-item-rating" id="submit-item-rating" value="2"
+                  required>
+                  <label class="form-check-label" for="inlineRadio2">2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="submit-item-rating" id="submit-item-rating" value="3"
+                  required>
+                  <label class="form-check-label" for="inlineRadio2">3</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="submit-item-rating" id="submit-item-rating" value="4"
+                  required>
+                  <label class="form-check-label" for="inlineRadio2">4 (Best)</label>
+                </div>
+              </div>
+              
+            </form>
+            
+          </div>
+          
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-block btn-outline-success" data-dismiss="modal" id="submit-item-form">Submit</button>
+            <button type="reset" class="btn btn-block btn-outline-danger mt-0" id="clear-item-form">Clear</button>
+          </div>
+          
         </div>
-
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-block btn-outline-success" data-dismiss="modal" id="submit-item-form">Submit</button>
-          <button type="reset" class="btn btn-block btn-outline-danger mt-0" id="clear-item-form">Clear</button>
-        </div>
-
-      </div>
 
     </div>
 
