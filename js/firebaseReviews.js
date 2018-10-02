@@ -33,24 +33,29 @@ database.ref().on("child_added", function (childSnapshot) {
   var revRating = childSnapshot.val().rating;
   var revRestaurant = childSnapshot.val().restaurant;
   var revLocation = childSnapshot.val().cityState;
-  var revURL = childSnapshot.val().url;
+  var revLocationZip = childSnapshot.val().cityStateZip;
+  var picURL = childSnapshot.val().picUrl;
+  var restURL = childSnapshot.val().restUrl;
   var revReview = childSnapshot.val().review;
   var revDescription = childSnapshot.val().description;
   var revFoodDrink = childSnapshot.val().foodDrink;
-  var revLat = parseInt(childSnapshot.val().lat);
-  var revLong = parseInt(childSnapshot.val().long);
+  var revLat = childSnapshot.val().lat;
+  var revLong = childSnapshot.val().long;
+  var revAddress = childSnapshot.val().address;
+  var revPhone = childSnapshot.val().phone;
 
   var $reviewDiv = $("<div class=' card m-2 d-inline-block' data-toggle='modal' data-target='#ex-modal' id='review-card' style='width: 21rem;'>");
   var $imgTop = $("<img class='card-img-top' alt='Card image cap' id='review-card-top'>");
   var $cardBody = $("<div class='card-body p-2'>")
-  var $itemName = $("<h5 class='card-title mb-0'>").text(revName);
-  var $restName = $("<p class='card-text card-rest mb-3' id='card-rest-text'>").text(revRestaurant + ", " + revLocation);
+  var nameSliced = revName.slice(0, 26);
+  var $itemName = $("<h5 class='card-title mb-0'>").text(nameSliced);
+  var $restName = $("<p class='card-text card-rest mb-1' id='card-rest-text'>").text(revRestaurant + ", " + revLocation);
 
   if (revReview) {
-    if (revReview.split("").length < 125) {
-      var $review = $("<p class='card-text mb-1 text-center' id='card-review-text'>").text(revReview)
+    if (revReview.split("").length < 120) {
+      var $review = $("<p class='card-text mb-2 text-center' id='card-review-text'>").text(revReview)
     } else {
-      var $review = $("<p class='card-text mb-1 text-center' id='card-review-text'>").text(revReview.split("").slice(0, 115).join("") + "...")
+      var $review = $("<p class='card-text mb-2 text-center' id='card-review-text'>").text(revReview.split("").slice(0, 120).join("") + "...")
     }
   }
 
@@ -73,18 +78,24 @@ database.ref().on("child_added", function (childSnapshot) {
     var $icon = $("<img alt='icon' src='images/icon-4.png' class='float-right' id='review-icon'>")
   }
 
+  $imgTop.attr("src", picURL)
 
 
-
-  $imgTop.attr("src", revURL)
-
-  $reviewDiv.attr("data-description", revDescription)
-    .attr("data-option", revFoodDrink)
-    .attr("data-review", revReview)
-    .attr("data-rating", revRating)
-    .attr("data-mf", revmfOptions)
-    .attr("data-longitude", revLat)
-    .attr("data-latitude", revLong)
+  $reviewDiv.attr({
+    "data-description": revDescription,
+    "data-option": revFoodDrink,
+    "data-review": revReview,
+    "data-rating": revRating,
+    "data-mf": revmfOptions,
+    "data-longitude": revLong,
+    "data-latitude": revLat,
+    "data-cityZip": revLocationZip,
+    "data-address": revAddress,
+    "data-name": revName.slice(0, 26),
+    "data-storeName": revRestaurant,
+    "data-phone": revPhone,
+    "data-url": restURL
+});
 
   $($reviewDiv).append($imgTop, $cardBody);
   $($cardBody).append($itemName, $restName, $review, $mfRow);

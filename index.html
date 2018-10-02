@@ -49,7 +49,7 @@
 
 
 
-    <div class='card d-inline-block  noborder m-3' style='width: 19rem'>
+    <div class='card d-inline-block head m-3' style='width: 19rem'>
       <img src="images/manager.jpg" class="front-pic">
       <p class="customer-text mt-3"> Customer satisfaction is of the utmost importance for a restaurant manager, and
         now
@@ -59,7 +59,7 @@
     </div>
 
 
-    <div class='card d-inline-block noborder m-3' style='width: 19rem'>
+    <div class='card d-inline-block head m-3' style='width: 19rem'>
       <img src="images/chef.jpg" class="front-pic">
 
       <p class="customer-text mt-3"> As a chef, I take a great deal of pride in my food. Not only the taste of it, but
@@ -71,7 +71,7 @@
     </div>
 
 
-    <div class='card d-inline-block noborder m-3' style='width: 19rem'>
+    <div class='card d-inline-block head m-3' style='width: 19rem'>
       <img src="images/customer.jpg" class="front-pic">
 
       <p class="customer-text mt-3"> Foodies rejoice! This is the app we've all been waiting for! We can now explore
@@ -215,7 +215,8 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Review Submission</h5>
+          <h5 class="modal-title" id="ex-title">Review Submission</h5>
+          
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -327,34 +328,43 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Review Submission</h5>
+          <h5 class="modal-title" id="foodTitle"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span id="closeOut" aria-hidden="true">&times;</span>
           </button>
         </div>
 
         <div class="modal-body">
           <div class="container big-card">
-            <div class="row align-items-center">
-              <div class="noborder ex ex-pic m-2 d-inline-block">
-                <div class="holder">
-                  <img class="ex-img bRadius-5" src="images/burger.jpg">
-                </div>
+
+
+            <div class="row justify-content-center align-items-center">
+
+              <div class="ex-square m-2" id="ex-food">
+
+                  <img class="ex-img" src="#">
+
               </div>
 
 
-              <div class="card ex ex-map ex m-2 d-inline-block">
-                  <div id="map"></div>
-              </div>
+              <div class="ex-square m-2" id="ex-map">
 
+                <div id="map"></div>
+
+              </div>
 
             </div>
 
 
-            <div class="row noborder" id="info-row">
-              
-            </div>
+            <div class="row justify-content-center">
 
+              <div class="ex-square-info m-2" id="ex-info"></div>
+
+              <div class="ex-square m-2" id="ex-store">
+                <h5 id="ex-restaurant"></h5>
+              </div>
+
+            </div>
 
           </div>
         </div>

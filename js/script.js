@@ -1,19 +1,24 @@
 var currentSelection = {}
 var map;
+var uluru;
+var marker;
 
-function initMap() {
+function initMap(lati = 0, longi = 0) {
+  uluru = {lat: lati, lng: longi};
   map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: 0, lng: 0 },
-    zoom: 15
+    center: uluru,
+    zoom: 12
   });
+  marker = new google.maps.Marker({position: uluru, map: map});
+
 }
 
 
 
 function apiCall(searchItems) {
 
-  var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + "sushi" + "&location=" + "toms+river" + "&radius=" + 10000 + "&limit=" + 10 + "&price=" + 2;
-  //var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + searchItems.keyword + "&location=" + searchItems.location + "&radius=" + searchItems.radiusSelected + "&limit=" + searchItems.resultsSelected + "&price=" + searchItems.priceSelected;
+  //var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + "sushi" + "&location=" + "toms+river" + "&radius=" + 10000 + "&limit=" + 10 + "&price=" + 2;
+  var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=" + searchItems.keyword + "&location=" + searchItems.location + "&radius=" + searchItems.radiusSelected + "&limit=" + searchItems.resultsSelected + "&price=" + searchItems.priceSelected;
 
   $.ajax({
     url: queryURL,
@@ -24,7 +29,6 @@ function apiCall(searchItems) {
     }
   }).then(function (response) {
 
-    console.log(response)
 
     for (var i = 0; i < response.businesses.length; i++) {
       var name = response.businesses[i].name;
@@ -38,6 +42,8 @@ function apiCall(searchItems) {
       var distance = response.businesses[i].distance;
       var restLat = response.businesses[i].coordinates.latitude;
       var restLong = response.businesses[i].coordinates.longitude;
+      var phone = response.businesses[i].display_phone;
+      var url = response.businesses[i].url;
 
 
 
@@ -62,8 +68,19 @@ function apiCall(searchItems) {
       $cardBodyButton.append($reviewButton);
       $restaurantDiv.append($cardBodyText, $cardBodyButton);
 
+      var cityStateZip = cityOnly + ", " + stateOnly + " " + zipOnly
+      var cityState = cityOnly + ", " + stateOnly
+
+
       $restaurantDiv.attr("data-long", restLong)
-                      .attr("data-lat", restLat)
+                    .attr("data-lat", restLat)
+                    .attr("data-address", address)
+                    .attr("data-phone", phone)
+                    .attr("data-url", url)
+                    .attr("data-cityState", cityState)
+                    .attr("data-cityStateZip", cityStateZip)
+                    .attr("data-name", name)
+
 
 
       $("#store-results").append($restaurantDiv);
@@ -89,7 +106,7 @@ function processSelectedFiles(fileInput) {
   // Upload file to Firebase Storage
 
   var uploadTask = photoRef.put(file).then(function (snapshot) {
-    console.log('Uploaded a blob or file!');
+
   });
 
 }
@@ -127,17 +144,22 @@ $(document).ready(function () {
 
   $(document).on("click", "#review-button", function () {
     console.log($(this))
-
     currentSelection = {};
 
-    currentSelection.restaurant = $(this).parent().parent()[0].childNodes[0].children[0].innerHTML
-    currentSelection.cityState = $(this).parent().parent()[0].childNodes[0].children[2].innerHTML.replace(/[0-9]/g, '').trim();
-    currentSelection.long = parseInt($(this)[0].parentElement.parentElement.dataset.long)
-    currentSelection.lat = parseInt($(this)[0].parentElement.parentElement.dataset.lat)
+    currentSelection.long = parseFloat($(this)[0].parentElement.parentElement.dataset.long)
+    currentSelection.lat = parseFloat($(this)[0].parentElement.parentElement.dataset.lat)
+    currentSelection.phone = $(this)[0].parentElement.parentElement.dataset.phone
+    currentSelection.restUrl = $(this)[0].parentElement.parentElement.dataset.url
+    currentSelection.restaurant = $(this)[0].parentElement.parentElement.dataset.name
+    currentSelection.address = $(this)[0].parentElement.parentElement.dataset.address
+    currentSelection.cityState = $(this)[0].parentElement.parentElement.dataset.citystate
+    currentSelection.cityStateZip = $(this)[0].parentElement.parentElement.dataset.citystatezip
 
   })
 
   $("#submit-item-form").on("click", function (event) {
+
+    $("#store-results").empty();
 
     event.preventDefault();
 
@@ -159,7 +181,7 @@ $(document).ready(function () {
     currentSelection.rating = rating;
 
     photoRef.getDownloadURL().then(function (url) {
-      currentSelection.url = url
+      currentSelection.picUrl = url
       database.ref().push(currentSelection);
     })
 
@@ -193,7 +215,8 @@ $(document).ready(function () {
   })
 
   $(document).on("click", "#review-card", function () {
-    $("#info-row").empty();
+    console.log($(this))
+    $("#ex-info").empty();
 
     // console.log($(this))
     var dataset = $(this)
@@ -202,28 +225,79 @@ $(document).ready(function () {
     var description = dataset[0].dataset.description
     var review = dataset[0].dataset.review
     var mouthFeel = dataset[0].dataset.mf
-    var restLong = parseInt(dataset[0].dataset.longitude)
-    var restLat = parseInt(dataset[0].dataset.latitude)
+    var name = dataset[0].dataset.name
+    var storeName = dataset[0].dataset.storename
+    var address = dataset[0].dataset.address
+    var cityZip = dataset[0].dataset.cityzip
+    var phone = dataset[0].dataset.phone
+    var url = dataset[0].dataset.url
+    var restLong = parseFloat(dataset[0].dataset.longitude)
+    var restLat = parseFloat(dataset[0].dataset.latitude)
+    var rating = dataset[0].dataset.rating;
+
+    initMap(restLat, restLong)
+
+
     
-    clickroute(restLat,restLong)
+    // clickroute(restLat,restLong)
     
-    function clickroute(lati,long) {
-      var latLng = new google.maps.LatLng(lati, long); //Makes a latlng
-      map.panTo(latLng); //Make map global
+    // function clickroute(lati,long) {
+    //   var latLng = new google.maps.LatLng(lati, long); //Makes a latlng
+    //   map.panTo(latLng); //Make map global
+    // }
+
+    $("#foodTitle").text(name)
+
+
+    if (rating === '1') {
+      var $exIcon = $("<img alt='icon' src='images/icon-1.png' class='float-right' id='ex-review-icon'>")
+    } else if (rating === '2') {
+      var $exIcon = $("<img alt='icon' src='images/icon-2.png' class='float-right' id='ex-review-icon'>")
+    } else if (rating === '3') {
+      var $exIcon = $("<img alt='icon' src='images/icon-3.png' class='float-right' id='ex-review-icon'>")
+    } else {
+      var $exIcon = $("<img alt='icon' src='images/icon-4.png' class='float-right' id='ex-review-icon'>")
     }
+
 
 
     $(".ex-img").attr("src", image);
 
-    var $infoDiv = $("<div class='card noborder ex ex-desc info-div m-2'>")
 
-    var $description = $("<h4 class='text-center mt-4'>Description:</h3>").append("<p class='text-center smallText mt-2' id='description'>" + description + "</p>")
-    var $review = $("<h4 class='text-center mt-4'>Review:</h3>").append("<p class='text-center smallText mt-2' id='review'>" + review + "</p>")
-    var $mouthFeel = $("<h4 class='text-center mt-3'>Mouthfeel:</h3>").append("<p class='text-center smallText mt-2' id='mouthFeel'>" + mouthFeel + "</p>")
+    var $reviewCard = $("<div class='card zeroBorder' id='reviewCard'>");
 
 
-    $infoDiv.append($mouthFeel, $description, $review)
-    $("#info-row").append($infoDiv)
+    var $descriptionTitle = $("<h4 class='text-center mt-4'>Description</h4>");
+    var $descriptionBody = $("<p class='text-center smallText mt-2' id='description'>")
+    $descriptionBody.text(description)
+    var $reviewTitle = $("<h4 class='text-center mt-4'>Review:</h4>");
+    var $reviewBody = $("<p class='text-center smallText mt-2' id='review'>" + review + "</p>")
+    var $mouthFeelTitle = $("<h4 class='text-center mt-4'>Mouthfeel:</h4>");
+    var $mouthFeelBody = $("<p class='text-center smallText mt-2' id='mouthFeel'>" + mouthFeel + "</p>")
+    
+    $reviewCard.append($mouthFeelTitle, $mouthFeelBody, $descriptionTitle, $descriptionBody, $reviewTitle, $reviewBody)
+
+    var $restName = $("<h4 class='mt-3 text-center'></h4>").text(storeName)
+    var $address = $("<h5 class='mt-1 text-center'></h5>").text(address)
+    var $cityZip = $("<h5 class='mt-1 text-center'></h5>").text(cityZip)
+    var $phone = $("<h5 class='mt-1 text-center'></h5>").text(phone)
+
+    var $urlLink = $("<a href=" + url + ">")
+    var $urlButton = $("<button type='button' class='btn btn-danger d-flex mx-auto mt-3'><a href=" + url + " target='_blank'>Click here to visit the website!</a></button>").append($urlLink)
+
+
+    var $url = $("<p class='mt-3 text-center' id='url'></p>").text(url)
+
+    var $restCard = $("<div class='card zeroBorder card-body' id='restCard'>")
+
+
+    $("#closeOut").empty()
+    $("#closeOut").prepend($exIcon)
+    $("#ex-info").empty()
+    $("#ex-info").append($reviewCard)
+    $("#ex-restaurant").empty()
+    $restCard.append($restName, $address, $cityZip, $phone, $urlButton)
+    $("#ex-restaurant").append($restCard);
 
   })
 

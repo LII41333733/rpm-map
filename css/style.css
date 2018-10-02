@@ -102,7 +102,7 @@ p {
 
 
 
-#review-icon {
+#review-icon, #ex-review-icon {
   height: 42px;
   width: 42px;
 }
@@ -121,10 +121,6 @@ p {
 .customer-container {
   background-color: white;
   border-radius: 5px;
-}
-
-.noborder {
-  border: none;
 }
 
 .customer-text {
@@ -166,30 +162,28 @@ padding-top: 20px;
   height: 100%;
 }
 
-.ex {
-  height: 260px;
+
+.ex-square {
+  width: 325px;
+  height: 325px;
 }
 
-.ex-pic {
-  width: 400px;
+.ex-square-info {
+  width: 325px;
   height: auto;
-
-  align-items: center;
-  justify-content: center;
+  min-height: 325px;
 }
 
-.ex-desc {
-  width: 100%;
-}
 
-.ex-map {
-  width: 300px;
-}
+
 
 .ex-img {
   height: auto;
   width: 100%;
-  max-height: 250px;
+  max-height: 325px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 
@@ -197,17 +191,11 @@ padding-top: 20px;
   max-width: 195px;
 }
 
-.bRadius-5 {
-  border-radius: 5px;
-}
 
-.holder {
-  width: 100%;
-  height: auto;
-}
+
 
 .smallText {
-  font-size: 0.9rem;
+  font-size: 0.97rem;
 }
 
 .modal-dialog,
@@ -220,4 +208,34 @@ padding-top: 20px;
     /* 100% = dialog height, 120px = header + footer */
     max-height: calc(100% - 120px);
     overflow-y: scroll;
+}
+
+#ex-food {
+
+  background-color: #293039;
+  border: 5px solid #a52a2a;
+}
+
+.head {
+  border: none;
+}
+
+#card-rest-text {
+  height: 40px;
+}
+
+#url {
+  font-size: 0.9rem;
+}
+
+.zeroBorder {
+  border: none;
+}
+
+#restCard {
+  padding: 0;
+}
+
+a {
+  color: white;
 }
